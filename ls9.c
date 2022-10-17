@@ -4,9 +4,9 @@ main()
 {
 	DIR *t;
 	struct dirent *y;
-	d=opendir(".");
+	t=opendir(".");
 	while((y=readdir(t))!=NULL)
-		printf("%s   ",y->t_name);
+		printf("%s   ",y->d_name);
 	closedir(t);
 	printf("\n");
 }
