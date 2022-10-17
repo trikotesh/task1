@@ -3,8 +3,7 @@
 #include<pthread.h>
 pthread_cond_t cond=PTHREAD_COND_INITIALIZER;
 pthread_mutex_t mutex=PTHREAD_MUTEX_INITIALIZER;
-pthread_mutex_t mutex1=PTHREAD_MUTEX_INITIALIZER;
-int k=0;
+
 void *oddthread();
 void *eventhread();
 
@@ -15,6 +14,7 @@ int main()
         pthread_create(&ti2,NULL,eventhread,NULL);
         pthread_join(ti1,NULL);
         pthread_join(ti2,NULL);
+	return 0;
 }
 void *oddthread()
 {
@@ -22,12 +22,15 @@ void *oddthread()
         for(i=1;i<=10;i++)
         {
 
-	pthread_mutex_lock(&mutex1);
+	pthread_mutex_lock(&mutex);
                 if(i%2!=0)
                         printf("thread 1 %d\n",i);
 		pthread_cond_wait(&cond,&mutex);
                         pthread_mutex_unlock(&mutex);
+			//sleep(1);
         }
+	exit(0);
+	
 }
 
 void *eventhread()
@@ -39,8 +42,11 @@ void *eventhread()
 		if(i%2==0)
                         printf("thread 2 %d\n",i);
 		pthread_cond_signal(&cond);
-		pthread_mutex_unlock(&mutex1);
+		pthread_mutex_unlock(&mutex);
+		sleep(1);
                         
         }
+	exit(0);
+	
 }
 
